@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    android:paddingHorizontal="40dp">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Username"
+            android:textColorHint="#aba3a3"
+            android:background="@drawable/bg_edit_text_login"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tv_warning_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Username should not contain space character"
+        android:textSize="12sp"
+        android:textColor="@color/red_text"
+        android:textStyle="italic"
+        android:visibility="gone"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_marginTop="22dp"
+        app:passwordToggleEnabled="true"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:textColorHint="@color/hint_black"
+            android:background="@drawable/bg_edit_text_login"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_marginTop="22dp"
+        app:passwordToggleEnabled="true"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_repassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Re-enter password"
+            android:inputType="textPassword"
+            android:textColorHint="@color/hint_black"
+            android:background="@drawable/bg_edit_text_login"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tv_warning_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Password does not match"
+        android:textSize="12sp"
+        android:textColor="@color/red_text"
+        android:textStyle="italic"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/btn_signup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SIGNUP"
+        android:background="@drawable/btn_login"
+        app:backgroundTint="@null"
+        android:layout_marginTop="32dp"
+        android:layout_gravity="center_horizontal"
+        android:paddingHorizontal="48dp"/>
+
+</LinearLayout>

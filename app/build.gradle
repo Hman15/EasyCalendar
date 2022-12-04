@@ -1,0 +1,95 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'de.timfreiheit.resourceplaceholders'
+apply plugin: 'com.google.gms.google-services'
+
+
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
+android {
+    compileSdkVersion 33
+
+    defaultConfig {
+        applicationId "com.simplemobiletools.calendar.pro"
+        minSdkVersion 21
+        targetSdkVersion 33
+        versionCode 225
+        versionName "6.20.3"
+        multiDexEnabled true
+        setProperty("archivesBaseName", "calendar")
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    signingConfigs {
+        if (keystorePropertiesFile.exists()) {
+            release {
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+                storeFile file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            applicationIdSuffix ""
+        }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            if (keystorePropertiesFile.exists()) {
+                signingConfig signingConfigs.release
+            }
+        }
+    }
+
+    flavorDimensions "variants"
+    productFlavors {
+        core {}
+        fdroid {}
+        prepaid {}
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    resourcePlaceholders {
+        files = ['xml/shortcuts.xml']
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+    implementation 'com.google.firebase:firebase-storage-ktx:20.0.1'
+    implementation 'com.google.firebase:firebase-firestore:24.2.0'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'com.google.android.material:material:1.6.0'
+    implementation 'com.google.firebase:firebase-analytics-ktx:20.1.2'
+    implementation 'com.google.firebase:firebase-auth-ktx:21.0.3'
+    testImplementation 'junit:junit:4.13.2'
+    implementation 'com.github.SimpleMobileTools:Simple-Commons:9795366108'
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation "androidx.print:print:1.0.0"
+
+    kapt 'androidx.room:room-compiler:2.4.3'
+    implementation 'androidx.room:room-runtime:2.4.3'
+    annotationProcessor 'androidx.room:room-compiler:2.4.3'
+}

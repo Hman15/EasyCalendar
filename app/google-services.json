@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "319969973600",
+    "project_id": "calendar-cloud-save",
+    "storage_bucket": "calendar-cloud-save.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:319969973600:android:9a3f1642fc5c18b523fa05",
+        "android_client_info": {
+          "package_name": "com.simplemobiletools.calendar.pro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "319969973600-k6lgllunflj9f65a4bv2vqk7pjqgphs2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkhKg_80Te3J38FNB8SNzr9qGhu1rpdBA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "319969973600-k6lgllunflj9f65a4bv2vqk7pjqgphs2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
