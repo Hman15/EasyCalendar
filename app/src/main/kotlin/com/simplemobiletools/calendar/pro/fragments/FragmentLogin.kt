@@ -69,8 +69,11 @@ class FragmentLogin : BaseFragment<FragmentLoginBinding>() {
 //                    startActivity(Intent(context, MainActivity :: class.java))
 //                    activity?.finish()
                 }){
-                    Toast.makeText(context, "Login success", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(context, MainActivity :: class.java))
+                    val intent = Intent(context, MainActivity :: class.java)
+                    intent.putExtra("userId", email)
+                    intent.putExtra("isLoggedIn", true)
+//                    Toast.makeText(context, "Login success", Toast.LENGTH_SHORT).show()
+                    startActivity(intent)
                     activity?.finish()
                 }
                 //Toast.makeText(context, "Login success", Toast.LENGTH_SHORT).show()

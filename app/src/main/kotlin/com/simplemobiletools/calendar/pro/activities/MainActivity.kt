@@ -16,8 +16,10 @@ import android.os.Handler
 import android.provider.ContactsContract.CommonDataKinds
 import android.provider.ContactsContract.Contacts
 import android.provider.ContactsContract.Data
+import android.util.AttributeSet
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuItemCompat
@@ -87,6 +89,9 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
     private var mStoredHighlightWeekends = false
     private var mStoredStartWeekWithCurrentDay = false
     private var mStoredHighlightWeekendsColor = 0
+    private var userName : String? = null
+    private var isLoggedIn : Boolean? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,7 +99,8 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
         appLaunched(BuildConfig.APPLICATION_ID)
         setupOptionsMenu()
         refreshMenuItems()
-
+        userName = intent.getStringExtra("userId")
+        isLoggedIn = intent.getBooleanExtra("isLoggedIn", false)
         checkWhatsNewDialog()
         calendar_fab.beVisibleIf(config.storedView != YEARLY_VIEW && config.storedView != WEEKLY_VIEW)
         calendar_fab.setOnClickListener {
@@ -241,6 +247,7 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
             findItem(R.id.go_to_today).isVisible = shouldGoToTodayBeVisible && !mIsSearchOpen
             findItem(R.id.go_to_date).isVisible = config.storedView != EVENTS_LIST_VIEW
             findItem(R.id.refresh_caldav_calendars).isVisible = config.caldavSync
+            findItem(R.id.login).isVisible = isLoggedIn == false
         }
     }
 
