@@ -250,4 +250,13 @@ class Config(context: Context) : BaseConfig(context) {
     var allowCreatingTasks: Boolean
         get() = prefs.getBoolean(ALLOW_CREATING_TASKS, true)
         set(allowCreatingTasks) = prefs.edit().putBoolean(ALLOW_CREATING_TASKS, allowCreatingTasks).apply()
+
+    var userName : String
+        get() = prefs.getString("username", "")!!
+        set(email) = prefs.edit().putString("username", email).apply()
+
+    var isLoggedIn : Boolean
+        get() = prefs.getBoolean("isLoggedIn", false)
+        set(isLoggedIn) = prefs.edit().putBoolean("isLoggedIn", isLoggedIn).apply()
+
 }

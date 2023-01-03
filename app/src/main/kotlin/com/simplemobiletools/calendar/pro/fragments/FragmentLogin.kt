@@ -10,14 +10,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.net.toUri
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.ktx.Firebase
 import com.simplemobiletools.calendar.pro.activities.MainActivity
 import com.simplemobiletools.calendar.pro.databinding.FragmentLoginBinding
+import com.simplemobiletools.calendar.pro.extensions.config
 import com.simplemobiletools.calendar.pro.firebase.UploadSave
+import com.simplemobiletools.calendar.pro.helpers.Config
 
 class FragmentLogin : BaseFragment<FragmentLoginBinding>() {
     override fun getViewBinding(): FragmentLoginBinding = FragmentLoginBinding.inflate(layoutInflater)
-    private lateinit var firebaseAuth : FirebaseAuth
+    private lateinit var firebaseAuth: FirebaseAuth
     private var username = ""
     private var password = ""
 
@@ -39,21 +40,20 @@ class FragmentLogin : BaseFragment<FragmentLoginBinding>() {
         val firebaseUser = firebaseAuth.currentUser
         if (firebaseUser != null) {
             //user is already logged in
-            startActivity(Intent(requireContext(), MainActivity :: class.java))
+            startActivity(Intent(requireContext(), MainActivity::class.java))
 
         }
     }
+
     private fun validateData() {
-        username  = binding.edtUsername.text.toString().trim()
+        username = binding.edtUsername.text.toString().trim()
         password = binding.edtPassword.text.toString().trim()
 
         if (!Patterns.EMAIL_ADDRESS.matcher(username).matches()) {
             binding.edtUsername.error = "Invalid email format"
-        }
-        else if (TextUtils.isEmpty(password)) {
+        } else if (TextUtils.isEmpty(password)) {
             binding.edtPassword.error = "Please enter password"
-        }
-        else {
+        } else {
             firebaseLogin()
         }
     }
@@ -63,27 +63,29 @@ class FragmentLogin : BaseFragment<FragmentLoginBinding>() {
             .addOnSuccessListener {
                 val firebaseUser = firebaseAuth.currentUser
                 val email = firebaseUser!!.email
-                UploadSave.downloadFile(firebaseUser.uid, "${requireContext().filesDir}/${firebaseUser.uid}".toUri(),{
-                        message->
-                    Toast.makeText(context,"File save not found", Toast.LENGTH_LONG)
-//                    startActivity(Intent(context, MainActivity :: class.java))
-//                    activity?.finish()
-                }){
-                    val intent = Intent(context, MainActivity :: class.java)
+                email?.let {
+                    context?.config?.userName = email
+                }
+                context?.config?.isLoggedIn = true
+                UploadSave.downloadFile(firebaseUser.uid, "${requireContext().filesDir}/${firebaseUser.uid}".toUri(), { message ->
+                    Toast.makeText(context, "File save not found", Toast.LENGTH_LONG).show()
+                    startActivity(Intent(context, MainActivity :: class.java))
+                    activity?.finish()
+                }) {
+                    val intent = Intent(context, MainActivity::class.java)
                     intent.putExtra("userId", email)
                     intent.putExtra("isLoggedIn", true)
-//                    Toast.makeText(context, "Login success", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Login success", Toast.LENGTH_SHORT).show()
                     startActivity(intent)
                     activity?.finish()
                 }
-                //Toast.makeText(context, "Login success", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Login success", Toast.LENGTH_SHORT).show()
 
             }
             .addOnFailureListener {
                 Toast.makeText(context, "Login failed due to ${it.message}", Toast.LENGTH_SHORT).show()
             }
     }
-
 
 
 }

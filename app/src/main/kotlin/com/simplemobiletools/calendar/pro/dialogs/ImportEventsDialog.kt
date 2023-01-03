@@ -1,6 +1,8 @@
 package com.simplemobiletools.calendar.pro.dialogs
 
+import android.os.Build
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import com.simplemobiletools.calendar.pro.R
 import com.simplemobiletools.calendar.pro.activities.SimpleActivity
@@ -47,6 +49,7 @@ class ImportEventsDialog(val activity: SimpleActivity, val path: String, val cal
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun initDialog() {
         val view = (activity.layoutInflater.inflate(R.layout.dialog_import_events, null) as ViewGroup).apply {
             updateEventType(this)

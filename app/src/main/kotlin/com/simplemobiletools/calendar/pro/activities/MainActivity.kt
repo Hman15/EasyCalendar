@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.SearchManager
 import android.content.ActivityNotFoundException
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ShortcutInfo
@@ -17,6 +18,7 @@ import android.provider.ContactsContract.CommonDataKinds
 import android.provider.ContactsContract.Contacts
 import android.provider.ContactsContract.Data
 import android.util.AttributeSet
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -98,10 +100,10 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
         setContentView(R.layout.activity_main)
         appLaunched(BuildConfig.APPLICATION_ID)
         setupOptionsMenu()
+        val username = config.userName
         refreshMenuItems()
         userName = intent.getStringExtra("userId")
         isLoggedIn = intent.getBooleanExtra("isLoggedIn", false)
-        checkWhatsNewDialog()
         calendar_fab.beVisibleIf(config.storedView != YEARLY_VIEW && config.storedView != WEEKLY_VIEW)
         calendar_fab.setOnClickListener {
             if (config.allowCreatingTasks) {
@@ -247,7 +249,8 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
             findItem(R.id.go_to_today).isVisible = shouldGoToTodayBeVisible && !mIsSearchOpen
             findItem(R.id.go_to_date).isVisible = config.storedView != EVENTS_LIST_VIEW
             findItem(R.id.refresh_caldav_calendars).isVisible = config.caldavSync
-            findItem(R.id.login).isVisible = isLoggedIn == false
+            findItem(R.id.login).isVisible = !config.isLoggedIn
+            findItem(R.id.logout).isVisible = config.isLoggedIn
         }
     }
 
@@ -271,6 +274,7 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
                 R.id.export_events -> tryExportEvents()
                 R.id.settings -> launchSettings()
                 R.id.login -> tryLoginToSync()
+                R.id.logout -> tryLogout()
                 R.id.import_cloud -> tryImportFromCloud()
                 else -> return@setOnMenuItemClickListener false
             }
@@ -330,6 +334,14 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
             mStoredStartWeekWithCurrentDay = startWeekWithCurrentDay
         }
         mStoredDayCode = Formatter.getTodayCode()
+    }
+
+    private fun tryLogout() {
+        if (config.isLoggedIn) {
+            config.isLoggedIn = false
+            finish();
+            startActivity(intent);
+        }
     }
 
     private fun setupSearch(menu: Menu) {
@@ -1109,6 +1121,7 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
                             toast(R.string.system_service_disabled, Toast.LENGTH_LONG)
                         } catch (e: Exception) {
                             showErrorToast(e)
+                            Log.d(TAG, "tryImportEvents: $e")
                         }
                     }
                 } else {

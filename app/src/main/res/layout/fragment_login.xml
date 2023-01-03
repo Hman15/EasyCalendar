@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#FFFFFF"
     android:orientation="vertical"
     android:paddingHorizontal="40dp">
 
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        android:layout_height="wrap_content">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edt_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Username"
-            android:textColorHint="#aba3a3"
             android:background="@drawable/bg_edit_text_login"
-            />
+            android:hint="Username"
+            android:textColorHint="#aba3a3" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_marginTop="22dp"
-        app:passwordToggleEnabled="true"
-        >
+        app:passwordToggleEnabled="true">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edt_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_edit_text_login"
             android:hint="Password"
             android:inputType="textPassword"
-            android:textColorHint="@color/hint_black"
-            android:background="@drawable/bg_edit_text_login"/>
+            android:textColorHint="@color/hint_black" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -44,10 +44,10 @@
         android:id="@+id/btn_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="LOGIN"
-        android:background="@drawable/btn_login"
-        app:backgroundTint="@null"
-        android:layout_marginTop="32dp"
         android:layout_gravity="center_horizontal"
-        android:paddingHorizontal="48dp"/>
+        android:layout_marginTop="32dp"
+        android:background="@drawable/btn_login"
+        android:paddingHorizontal="48dp"
+        android:text="LOGIN"
+        app:backgroundTint="@null" />
 </LinearLayout>
