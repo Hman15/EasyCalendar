@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import com.simplemobiletools.calendar.pro.R
 import com.simplemobiletools.calendar.pro.activities.SimpleActivity
+import com.simplemobiletools.calendar.pro.extensions.AES
 import com.simplemobiletools.calendar.pro.extensions.eventsDB
 import com.simplemobiletools.calendar.pro.extensions.eventsHelper
 import com.simplemobiletools.calendar.pro.helpers.IcsImporter.ImportResult.IMPORT_FAIL
@@ -87,7 +88,9 @@ class IcsImporter(val activity: SimpleActivity) {
 
             inputStream.bufferedReader().use {
                 input = it.readText()
-                output = String(Base64.getDecoder().decode(input))
+                AES.decrypt(input)?.let { out ->
+                    output = out
+                }
                 reader = BufferedReader(StringReader(output))
             }
             while (true) {

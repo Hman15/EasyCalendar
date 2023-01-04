@@ -1,10 +1,12 @@
 package com.simplemobiletools.calendar.pro.helpers
 
 import android.content.ContentValues.TAG
+import android.os.Build
 import android.provider.CalendarContract.Events
-import android.util.Base64
 import android.util.Log
+import androidx.annotation.RequiresApi
 import com.simplemobiletools.calendar.pro.R
+import com.simplemobiletools.calendar.pro.extensions.AES
 import com.simplemobiletools.calendar.pro.extensions.calDAVHelper
 import com.simplemobiletools.calendar.pro.extensions.eventTypesDB
 import com.simplemobiletools.calendar.pro.helpers.IcsExporter.ExportResult.EXPORT_FAIL
@@ -31,6 +33,7 @@ class IcsExporter {
     private var calendars = ArrayList<CalDAVCalendar>()
     private val outputContent = mutableListOf<String>()
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun exportEvents(
         activity: BaseSimpleActivity,
         outputStream: OutputStream?,
@@ -100,9 +103,9 @@ class IcsExporter {
                     outputContent.add(END_EVENT)
                 }
                 outputContent.add(END_CALENDAR)
-                val outPut = Base64.encodeToString(outputContent.joinToString("\n").toByteArray(), Base64.NO_WRAP)
+//                val outPut = Base64.encodeToString(outputContent.joinToString("\n").toByteArray(), Base64.DEFAULT)
+                val outPut = AES.encrypt(outputContent.joinToString("\n"))
                 Log.d(TAG, "exportEvents: $outPut")
-//                val outPut = outputContent.joinToString("\n")
                 out.write(outPut)
             }
 

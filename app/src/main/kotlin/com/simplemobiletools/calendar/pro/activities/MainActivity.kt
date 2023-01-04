@@ -17,11 +17,9 @@ import android.os.Handler
 import android.provider.ContactsContract.CommonDataKinds
 import android.provider.ContactsContract.Contacts
 import android.provider.ContactsContract.Data
-import android.util.AttributeSet
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuItemCompat
@@ -91,8 +89,8 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
     private var mStoredHighlightWeekends = false
     private var mStoredStartWeekWithCurrentDay = false
     private var mStoredHighlightWeekendsColor = 0
-    private var userName : String? = null
-    private var isLoggedIn : Boolean? = null
+    private var userName: String? = null
+    private var isLoggedIn: Boolean? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -251,6 +249,8 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
             findItem(R.id.refresh_caldav_calendars).isVisible = config.caldavSync
             findItem(R.id.login).isVisible = !config.isLoggedIn
             findItem(R.id.logout).isVisible = config.isLoggedIn
+            findItem(R.id.export_events).isVisible = config.isLoggedIn
+            findItem(R.id.import_cloud).isVisible = config.isLoggedIn
         }
     }
 
@@ -309,10 +309,9 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
             tryImportEventsFromFile(resultData.data!!)
         } else if (requestCode == PICK_EXPORT_FILE_INTENT && resultCode == Activity.RESULT_OK && resultData != null && resultData.data != null) {
             val outputStream = contentResolver.openOutputStream(resultData.data!!)
-            UploadSave.uploadFile(uid = Firebase.auth.currentUser?.uid?: "",resultData.data!!,{
-                    message->
+            UploadSave.uploadFile(uid = Firebase.auth.currentUser?.uid ?: "", resultData.data!!, { message ->
                 Toast.makeText(this, "Upload failure~ $message", Toast.LENGTH_SHORT).show()
-            }){
+            }) {
                 Toast.makeText(this, "Upload successfully", Toast.LENGTH_SHORT).show()
             }
             exportEventsTo(eventTypesToExport, outputStream)
@@ -383,7 +382,7 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
     }
 
     private fun tryImportFromCloud() {
-        if (!File("${this.filesDir}/${Firebase.auth.currentUser?.uid}").exists() ) {
+        if (!File("${this.filesDir}/${Firebase.auth.currentUser?.uid}").exists()) {
             Toast.makeText(this, "Save file not found", Toast.LENGTH_SHORT).show()
             return
         }
